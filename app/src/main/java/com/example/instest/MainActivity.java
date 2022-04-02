@@ -1,5 +1,6 @@
 package com.example.instest;
 import android.Manifest;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,11 +13,17 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.example.instest.DataService.DataBaseService;
 import com.example.instest.Model.User;
+import com.example.instest.ui.dashboard.DashboardFragment;
+import com.example.instest.ui.home.HomeFragment;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -24,16 +31,11 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.instest.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity{
 
-    Button button;
-    TextView textView1;
-    TextView textView;
-    EditText editText;
-    String string;
+
+    String address;
     private ActivityMainBinding binding;
-    private FusedLocationProviderClient fusedLocationClient;
 
 
-    private User user = new User("saddas");
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,13 @@ public class MainActivity extends AppCompatActivity{
         NavigationUI.setupWithNavController(binding.navView, navController);
 
 
+
+        //DataBase initial
+        DataBaseService databaseHelper = new DataBaseService(this,"test_db",null,1);
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
+        System.out.println(sqLiteDatabase.getPath());
+
+        //ask for permissions
         requestPermissions(new String[]{
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.READ_PHONE_STATE,
@@ -63,28 +72,12 @@ public class MainActivity extends AppCompatActivity{
         AMapLocationClient.updatePrivacyAgree(this, true);
 
 
-        try {
-            startLocation();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
     }
 
-    // getLocation here
-
+    // getLocation
     private AMapLocationClient mapLocationClient;
-    private AMapLocationListener mapLocationListener = new AMapLocationListener() {
-        @Override
-        public void onLocationChanged(AMapLocation aMapLocation) {
-            Log.d("Ins","Location: "+aMapLocation.getCountry()+" "+aMapLocation.getCity());
-            string = aMapLocation.getCity()+" "+aMapLocation.getCountry();
-            Toast.makeText(getApplicationContext(),"Location: "+string,Toast.LENGTH_LONG).show();
-            System.out.println(string);
-        }
-    };
 
-    public void startLocation() throws Exception {
+    public void startLocation(AMapLocationListener mapLocationListener) throws Exception {
         mapLocationClient = new AMapLocationClient(getApplicationContext());
         mapLocationClient.setLocationListener(mapLocationListener);
 
@@ -99,6 +92,7 @@ public class MainActivity extends AppCompatActivity{
         mapLocationClient.startLocation();
 
         Log.d("Ins","StartLocation");
+
     }
 
     private void stopLocation(){
@@ -107,9 +101,16 @@ public class MainActivity extends AppCompatActivity{
         mapLocationClient.onDestroy();
         Log.d("Ins","StopLocation");
     }
-
     // end
 
+
+    public void setString(String string) {
+        this.address = string;
+    }
+
+    public String getString(){
+        return address;
+    }
 
     @Override
     protected void onDestroy() {

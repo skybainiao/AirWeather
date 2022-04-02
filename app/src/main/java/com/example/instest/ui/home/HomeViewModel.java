@@ -1,8 +1,12 @@
 package com.example.instest.ui.home;
 
+import android.annotation.SuppressLint;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.example.instest.MainActivity;
 
 public class HomeViewModel extends ViewModel {
 
@@ -16,4 +20,5 @@ public class HomeViewModel extends ViewModel {
     public LiveData<String> getText() {
         return mText;
     }
+
 }
