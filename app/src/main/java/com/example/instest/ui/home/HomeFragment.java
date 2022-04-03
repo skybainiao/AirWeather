@@ -43,18 +43,22 @@ public class HomeFragment extends Fragment {
     private AMapLocationListener aMapLocationListener = new AMapLocationListener() {
         @Override
         public void onLocationChanged(AMapLocation aMapLocation) {
-            sleep(2000);
-            address = "Location: "+aMapLocation.getCity()+" "+aMapLocation.getProvince()+" "+aMapLocation.getCountry();
-            latitude = aMapLocation.getLatitude();
-            longitude = aMapLocation.getLongitude();
-            textView1.setText("W: "+latitude);
-            textView2.setText("J: "+longitude);
-            textViewHome.setText(address);
-            progressBar.setVisibility(View.GONE);
-            if (latitude!=0){
-                Toast.makeText(getContext(),"Location Successfully", Toast.LENGTH_LONG).show();
-            }
-            System.out.println(aMapLocation.getLatitude()+" "+aMapLocation.getLongitude());
+                sleep(2000);
+                address = "Location: "+aMapLocation.getCity()+" "+aMapLocation.getProvince()+" "+aMapLocation.getCountry();
+                latitude = aMapLocation.getLatitude();
+                longitude = aMapLocation.getLongitude();
+                textView1.setText("W: "+latitude);
+                textView2.setText("J: "+longitude);
+                textViewHome.setText(address);
+                progressBar.setVisibility(View.GONE);
+                if (latitude!=0 && longitude!=0 && aMapLocation.getCountry()!=null){
+                    Toast.makeText(getContext(),"Location Successfully", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    textViewHome.setText(aMapLocation.getErrorInfo()+aMapLocation.getErrorCode());
+                    Toast.makeText(getContext(),"Location Failed", Toast.LENGTH_LONG).show();
+                }
+
         }
     };
 
