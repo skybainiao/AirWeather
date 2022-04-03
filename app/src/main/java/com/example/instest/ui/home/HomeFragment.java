@@ -55,7 +55,7 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(getContext(),"Location Successfully", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    textViewHome.setText(aMapLocation.getErrorInfo()+aMapLocation.getErrorCode());
+                    textViewHome.setText(aMapLocation.getErrorInfo()+"ErrorCode: "+aMapLocation.getErrorCode());
                     Toast.makeText(getContext(),"Location Failed", Toast.LENGTH_LONG).show();
                 }
 
