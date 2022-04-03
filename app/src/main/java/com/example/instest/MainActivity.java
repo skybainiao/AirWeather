@@ -54,12 +54,7 @@ public class MainActivity extends AppCompatActivity{
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-
-
-        //DataBase initial
-        DataBaseService databaseHelper = new DataBaseService(this,"test_db",null,1);
-        SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
-        System.out.println(sqLiteDatabase.getPath());
+        navView.setClickable(false);
 
         //ask for permissions
         requestPermissions(new String[]{
