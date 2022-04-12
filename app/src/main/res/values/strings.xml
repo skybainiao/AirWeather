@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">AirMap</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="app_name">AirWeather</string>
+    <string name="title_home">Weather</string>
+    <string name="title_dashboard">Location</string>
+    <string name="title_notifications">User</string>
+    <string name="weather_for_the_next_three_days">Weather for the next three days</string>
+    <string name="city">City</string>
 </resources>
