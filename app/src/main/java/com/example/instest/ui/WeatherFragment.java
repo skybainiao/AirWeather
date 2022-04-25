@@ -3,6 +3,7 @@ package com.example.instest.ui;
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,9 +36,11 @@ public class WeatherFragment extends Fragment {
     TextView textView7;
     TextView textView8;
     TextView textView9;
+    ProgressDialog pd;
     private String weather;
     private Weather weatherFuture1;
     private FragmentHomeBinding binding;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
@@ -45,6 +48,9 @@ public class WeatherFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        pd = new ProgressDialog(getContext());
+        pd.setMessage("LoadingWeatherData");
+        pd.show();
         textView1 = root.findViewById(R.id.item5);
         textView2 = root.findViewById(R.id.item10);
         textView3 = root.findViewById(R.id.item);
@@ -78,6 +84,7 @@ public class WeatherFragment extends Fragment {
         QWeather.getWeather3D(getContext(), "D740", Lang.EN,Unit.METRIC, new QWeather.OnResultWeatherDailyListener() {
             @Override
             public void onError(Throwable throwable) {
+                pd.dismiss();
                 Log.i(TAG, "getWeather onError: " + throwable);
             }
 
@@ -85,6 +92,7 @@ public class WeatherFragment extends Fragment {
             @Override
             public void onSuccess(WeatherDailyBean weatherDailyBean) {
                 if (Code.OK == weatherDailyBean.getCode()) {
+                    pd.dismiss();
                     textView1.setText(weatherDailyBean.getDaily().get(0).getFxDate());
                     textView2.setText(weatherDailyBean.getDaily().get(0).getTextDay());
                     textView3.setText(weatherDailyBean.getDaily().get(0).getTempMin()+"/"+weatherDailyBean.getDaily().get(1).getTempMax()+"\u2103");
@@ -95,6 +103,7 @@ public class WeatherFragment extends Fragment {
                     textView8.setText(weatherDailyBean.getDaily().get(2).getTextDay());
                     textView9.setText(weatherDailyBean.getDaily().get(2).getTempMin()+"/"+weatherDailyBean.getDaily().get(1).getTempMax()+"\u2103");
                 } else {
+                    pd.dismiss();
                     Code code = weatherDailyBean.getCode();
                     Log.i(TAG, "failed code: " + code);
                 }

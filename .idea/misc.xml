@@ -9,6 +9,7 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/mwzpic_background.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.182518115942029" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.2627777099609375" />

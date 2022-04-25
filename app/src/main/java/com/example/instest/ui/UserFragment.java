@@ -37,8 +37,7 @@ import com.google.firebase.storage.UploadTask;
 public class UserFragment extends Fragment {
 
     private FragmentNotificationsBinding binding;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference mDatabase = database.getReference();
+
     Button chooseImg, uploadImg,uploadData;
     ImageView imgView;
     int PICK_IMAGE_REQUEST = 111;
@@ -69,9 +68,7 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 User user = new User("chen", "dsajio");
-                User user1 = new User("mwz","dsajio");
-                mDatabase.child("Users").child("username").setValue(user);
-                mDatabase.child("Users").setValue(user1);
+                notificationsViewModel.UploadUser(user);
             }
         });
 

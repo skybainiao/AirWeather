@@ -65,8 +65,6 @@ public class MainActivity extends AppCompatActivity{
     private ActivityMainBinding binding;
 
 
-
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
