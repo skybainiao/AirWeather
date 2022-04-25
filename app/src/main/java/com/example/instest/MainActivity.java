@@ -2,6 +2,10 @@ package com.example.instest;
 import static android.content.ContentValues.TAG;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,16 +14,28 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.example.instest.databinding.ActivityMainBinding;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.test.platform.app.InstrumentationRegistry;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
+import com.qweather.sdk.bean.IndicesBean;
+import com.qweather.sdk.bean.air.AirNowBean;
 import com.qweather.sdk.bean.base.Code;
+import com.qweather.sdk.bean.base.IndicesType;
 import com.qweather.sdk.bean.base.Lang;
 import com.qweather.sdk.bean.base.Unit;
 import com.qweather.sdk.bean.geo.GeoBean;
@@ -28,11 +44,23 @@ import com.qweather.sdk.bean.weather.WeatherNowBean;
 import com.qweather.sdk.view.HeConfig;
 import com.qweather.sdk.view.QWeather;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity{
 
 
     String address;
     private ActivityMainBinding binding;
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -51,6 +79,15 @@ public class MainActivity extends AppCompatActivity{
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+        System.out.println("////////"+sHA1(this));
+
+
+
+
+        // TODO: 2022/4/24 /Database
+
+
 
 
         //ask for permissions
@@ -98,15 +135,9 @@ public class MainActivity extends AppCompatActivity{
                 }
             }
         });
-
-
-
-
-
-
-
-
     }
+
+
 
 
     // getLocation
@@ -138,6 +169,32 @@ public class MainActivity extends AppCompatActivity{
     }
     // end
 
+
+    public static String sHA1(Context context){
+        try {
+            PackageInfo info = context.getPackageManager().getPackageInfo(
+                    context.getPackageName(), PackageManager.GET_SIGNATURES);
+            byte[] cert = info.signatures[0].toByteArray();
+            MessageDigest md = MessageDigest.getInstance("SHA1");
+            byte[] publicKey = md.digest(cert);
+            StringBuffer hexString = new StringBuffer();
+            for (int i = 0; i < publicKey.length; i++) {
+                String appendString = Integer.toHexString(0xFF & publicKey[i])
+                        .toUpperCase(Locale.US);
+                if (appendString.length() == 1)
+                    hexString.append("0");
+                hexString.append(appendString);
+                hexString.append(":");
+            }
+            String result = hexString.toString();
+            return result.substring(0, result.length()-1);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 
     public void setString(String string) {

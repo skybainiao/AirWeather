@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1040716788600",
+    "project_id": "airweather-51cb6",
+    "storage_bucket": "airweather-51cb6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1040716788600:android:6dbcebd6ffb267c50f4e8d",
+        "android_client_info": {
+          "package_name": "com.example.instest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1040716788600-1ql94qj7akjp1tqrjp2l9vne4l2ai1is.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.instest",
+            "certificate_hash": "ac4e370731e8f058f31257278a302929fa3e0937"
+          }
+        },
+        {
+          "client_id": "1040716788600-8e5tcfu9ga859a9tn56gd52ph1dksmbf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZ7YDmZapD29xkwtwLwEVkvj0AgG_Xq2c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1040716788600-8e5tcfu9ga859a9tn56gd52ph1dksmbf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
