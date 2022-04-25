@@ -21,6 +21,12 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Upload Data"
+            android:id="@+id/uploadData"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="Choose Image"
             android:id="@+id/chooseImg"/>
 
@@ -29,6 +35,8 @@
             android:layout_height="wrap_content"
             android:text="Upload Image"
             android:id="@+id/uploadImg"/>
+
+
 
         <ImageView
             android:layout_width="match_parent"

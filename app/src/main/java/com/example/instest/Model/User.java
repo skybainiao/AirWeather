@@ -1,8 +1,13 @@
 package com.example.instest.Model;
 
 public class User {
-    private String username = "Chen";
+    private String username;
     private String password;
+
+    public User(String username,String password){
+        this.username = username;
+        this.password = password;
+    }
 
     public User(String password){
         this.password = password;

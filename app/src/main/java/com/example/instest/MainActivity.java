@@ -13,6 +13,7 @@ import android.util.Log;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.example.instest.Model.User;
 import com.example.instest.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,6 +29,8 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -62,6 +65,8 @@ public class MainActivity extends AppCompatActivity{
     private ActivityMainBinding binding;
 
 
+
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +91,9 @@ public class MainActivity extends AppCompatActivity{
 
 
         // TODO: 2022/4/24 /Database
+
+
+
 
 
 

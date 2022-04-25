@@ -22,11 +22,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.instest.MainActivity;
+import com.example.instest.Model.User;
 import com.example.instest.R;
 import com.example.instest.ViewModel.NotificationsViewModel;
 import com.example.instest.databinding.FragmentNotificationsBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -34,14 +37,16 @@ import com.google.firebase.storage.UploadTask;
 public class UserFragment extends Fragment {
 
     private FragmentNotificationsBinding binding;
-    Button chooseImg, uploadImg;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference mDatabase = database.getReference();
+    Button chooseImg, uploadImg,uploadData;
     ImageView imgView;
     int PICK_IMAGE_REQUEST = 111;
     Uri filePath;
     ProgressDialog pd;
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
-    StorageReference storageRef = storage.getReferenceFromUrl("gs://airweather-51cb6.appspot.com");
+    StorageReference storageRef = storage.getReference();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -54,10 +59,21 @@ public class UserFragment extends Fragment {
 
         chooseImg = root.findViewById(R.id.chooseImg);
         uploadImg = root.findViewById(R.id.uploadImg);
+        uploadData = root.findViewById(R.id.uploadData);
         imgView = root.findViewById(R.id.imgView);
 
         pd = new ProgressDialog(getContext());
         pd.setMessage("Uploading....");
+
+        uploadData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                User user = new User("chen", "dsajio");
+                User user1 = new User("mwz","dsajio");
+                mDatabase.child("Users").child("username").setValue(user);
+                mDatabase.child("Users").setValue(user1);
+            }
+        });
 
         chooseImg.setOnClickListener(new View.OnClickListener() {
             @SuppressWarnings("deprecation")
@@ -105,6 +121,9 @@ public class UserFragment extends Fragment {
 
         return root;
     }
+
+
+
 
 
     @SuppressWarnings("deprecation")
