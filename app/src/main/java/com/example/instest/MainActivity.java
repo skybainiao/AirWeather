@@ -19,8 +19,10 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.example.instest.Model.User;
 import com.example.instest.databinding.ActivityMainBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -33,6 +35,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -65,6 +68,8 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity{
 
     public String address;
+    FirebaseDatabase database = FirebaseDatabase.getInstance("https://airweather-51cb6-default-rtdb.europe-west1.firebasedatabase.app/");
+    DatabaseReference mDatabase = database.getReference();
     TextView city;
     TextView textView1;
     TextView textView2;
@@ -137,6 +142,7 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        FirebaseApp.initializeApp(this);
         System.out.println("start");
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -187,6 +193,24 @@ public class MainActivity extends AppCompatActivity{
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+
+
+        mDatabase.child("Users").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    System.out.println("Error======="+task.getException());
+                }
+                else {
+                    System.out.println("============="+String.valueOf(task.getResult().getValue()));
+                }
+            }
+        });
+
+
+
 
 
 
