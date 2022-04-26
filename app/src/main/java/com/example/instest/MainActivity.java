@@ -181,6 +181,19 @@ public class MainActivity extends AppCompatActivity{
         HeConfig.switchToDevService();
 
 
+        QWeather.getWeather15D(this, "D740", new QWeather.OnResultWeatherDailyListener() {
+            @Override
+            public void onError(Throwable throwable) {
+                Log.i(TAG,"Error: "+throwable);
+            }
+
+            @Override
+            public void onSuccess(WeatherDailyBean weatherDailyBean) {
+                System.out.println("MAXTEMP==========="+weatherDailyBean.getDaily().get(0).getTempMax());
+            }
+        });
+
+
         try {
             startLocation(aMapLocationListener);
 

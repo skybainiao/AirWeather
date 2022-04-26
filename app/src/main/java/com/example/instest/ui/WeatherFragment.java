@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -46,6 +47,7 @@ public class WeatherFragment extends Fragment {
     String code;
     TextView city;
     EditText cityText;
+    ImageView imageButton;
     TextView textView1;
     TextView textView2;
     TextView textView3;
@@ -120,6 +122,7 @@ public class WeatherFragment extends Fragment {
         pd.show();
         city = root.findViewById(R.id.city);
         cityText = root.findViewById(R.id.cityText);
+        imageButton = root.findViewById(R.id.imageButton);
         textView1 = root.findViewById(R.id.item5);
         textView2 = root.findViewById(R.id.item10);
         textView3 = root.findViewById(R.id.item);
@@ -133,7 +136,7 @@ public class WeatherFragment extends Fragment {
 
 
 
-        city.setOnClickListener(new View.OnClickListener() {
+        imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 pd.show();
@@ -216,6 +219,7 @@ public class WeatherFragment extends Fragment {
                 }
             }
         });
+
 
 
 
