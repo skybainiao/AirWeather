@@ -45,7 +45,6 @@ public class WeatherFragment extends Fragment {
     DatabaseReference mDatabase = firebaseDatabase.getReference();
 
     String code;
-    TextView city;
     EditText cityText;
     ImageView imageButton;
     TextView textView1;
@@ -64,7 +63,6 @@ public class WeatherFragment extends Fragment {
     private AMapLocationListener aMapLocationListener = new AMapLocationListener() {
         @Override
         public void onLocationChanged(AMapLocation aMapLocation) {
-            city.setText(aMapLocation.getCity());
             cityText.setText(aMapLocation.getCity());
 
             QWeather.getGeoCityLookup(getContext(), aMapLocation.getCity(), new QWeather.OnResultGeoListener() {
@@ -120,7 +118,6 @@ public class WeatherFragment extends Fragment {
         pd = new ProgressDialog(getContext());
         pd.setMessage("LoadingWeatherData");
         pd.show();
-        city = root.findViewById(R.id.city);
         cityText = root.findViewById(R.id.cityText);
         imageButton = root.findViewById(R.id.imageButton);
         textView1 = root.findViewById(R.id.item5);

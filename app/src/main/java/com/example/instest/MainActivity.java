@@ -64,7 +64,6 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity{
 
-
     public String address;
     TextView city;
     TextView textView1;
@@ -180,18 +179,6 @@ public class MainActivity extends AppCompatActivity{
         HeConfig.init("HE2204120029571686", "3c1d0f6b411c42379bde9ca2fb83661b");
         HeConfig.switchToDevService();
 
-
-        QWeather.getWeather15D(this, "D740", new QWeather.OnResultWeatherDailyListener() {
-            @Override
-            public void onError(Throwable throwable) {
-                Log.i(TAG,"Error: "+throwable);
-            }
-
-            @Override
-            public void onSuccess(WeatherDailyBean weatherDailyBean) {
-                System.out.println("MAXTEMP==========="+weatherDailyBean.getDaily().get(0).getTempMax());
-            }
-        });
 
 
         try {
