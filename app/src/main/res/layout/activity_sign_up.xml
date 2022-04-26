@@ -5,43 +5,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/mwz"
-    tools:context=".LoginActivity">
+    tools:context=".SignUpActivity">
 
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/editTextTextPersonName"
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:layout_marginStart="52dp"
-        android:textColor="@color/white"
-        android:layout_marginTop="176dp"
+        android:layout_marginTop="144dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:text="@string/username"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/editTextTextPassword"
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:ems="10"
-        android:textColor="@color/white"
         android:inputType="text"
         android:text="@string/password"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.411"
+        app:layout_constraintVertical_bias="0.326"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <EditText
+        android:id="@+id/editTextTextPasswordAgain"
+        android:layout_width="300dp"
+        android:layout_height="55dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/passwordagain"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.44"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
-        android:id="@+id/login"
+        android:id="@+id/signUp2"
         android:layout_width="300dp"
         android:layout_height="55dp"
-        android:text="Sign in"
+        android:text="Sign up"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -50,14 +67,15 @@
         app:layout_constraintVertical_bias="0.64" />
 
     <Button
-        android:id="@+id/signUp"
+        android:id="@+id/cancel"
         android:layout_width="300dp"
         android:layout_height="55dp"
-        android:text="Sign up"
+        android:text="Cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.778" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

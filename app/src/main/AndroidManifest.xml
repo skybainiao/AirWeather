@@ -26,9 +26,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.InsTest">
         <activity
-            android:name=".MainActivity"
+            android:name=".SignUpActivity"
             android:exported="false" />
-        <!-- Map api -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" /> <!-- Map api -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="bfed26542b5de083033e7ed1e636d2c4" /> <!-- Map Service -->
