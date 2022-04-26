@@ -38,7 +38,6 @@ public class LocationFragment extends Fragment {
         @SuppressLint("SetTextI18n")
         @Override
         public void onLocationChanged(AMapLocation aMapLocation) {
-            sleep(2000);
             address = "Location: "+aMapLocation.getCity()+" "+aMapLocation.getProvince()+" "+aMapLocation.getCountry();
             latitude = aMapLocation.getLatitude();
             longitude = aMapLocation.getLongitude();
@@ -57,8 +56,6 @@ public class LocationFragment extends Fragment {
         }
     };
 
-
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         DashboardViewModel dashboardViewModel =
@@ -73,12 +70,20 @@ public class LocationFragment extends Fragment {
         dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
 
+
         button = root.findViewById(R.id.button3);
         textViewLocation = root.findViewById(R.id.text_dashboard);
         textView1 = root.findViewById(R.id.textView);
         textView2 = root.findViewById(R.id.textView2);
         progressBar = root.findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
+
+        try {
+            ((MainActivity)getActivity()).startLocation(aMapLocationListener);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

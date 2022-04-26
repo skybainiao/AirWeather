@@ -2,6 +2,8 @@ package com.example.instest;
 import static android.content.ContentValues.TAG;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -9,7 +11,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
@@ -61,8 +65,72 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity{
 
 
-    String address;
+    public String address;
+    TextView city;
+    TextView textView1;
+    TextView textView2;
+    TextView textView3;
+    TextView textView4;
+    TextView textView5;
+    TextView textView6;
+    TextView textView7;
+    TextView textView8;
+    TextView textView9;
+    ProgressDialog pd;
     private ActivityMainBinding binding;
+    private AMapLocationListener aMapLocationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation aMapLocation) {
+            city.setText(aMapLocation.getCity());
+            address = aMapLocation.getCity();
+            System.out.println("addddddddddd=============================="+address);
+
+            QWeather.getGeoCityLookup(getApplicationContext(), address, new QWeather.OnResultGeoListener() {
+                @Override
+                public void onError(Throwable throwable) {
+                    pd.dismiss();
+                    Log.i(TAG,"Error: "+throwable);
+                }
+
+                @Override
+                public void onSuccess(GeoBean geoBean) {
+                    System.out.println("iddddddddddd"+geoBean.getLocationBean().get(0).getId());
+                    String id = geoBean.getLocationBean().get(0).getId();
+
+                    QWeather.getWeather3D(getApplicationContext(), id, Lang.EN,Unit.METRIC, new QWeather.OnResultWeatherDailyListener() {
+                        @Override
+                        public void onError(Throwable throwable) {
+                            pd.dismiss();
+                            Log.i(TAG, "getWeather onError: " + throwable);
+                        }
+
+                        @SuppressLint("SetTextI18n")
+                        @Override
+                        public void onSuccess(WeatherDailyBean weatherDailyBean) {
+                            if (Code.OK == weatherDailyBean.getCode()) {
+                                pd.dismiss();
+                                textView1.setText(weatherDailyBean.getDaily().get(0).getFxDate());
+                                textView2.setText(weatherDailyBean.getDaily().get(0).getTextDay());
+                                textView3.setText(weatherDailyBean.getDaily().get(0).getTempMin()+"/"+weatherDailyBean.getDaily().get(1).getTempMax()+"\u2103");
+                                textView4.setText(weatherDailyBean.getDaily().get(1).getFxDate());
+                                textView5.setText(weatherDailyBean.getDaily().get(1).getTextDay());
+                                textView6.setText(weatherDailyBean.getDaily().get(1).getTempMin()+"/"+weatherDailyBean.getDaily().get(1).getTempMax()+"\u2103");
+                                textView7.setText(weatherDailyBean.getDaily().get(2).getFxDate());
+                                textView8.setText(weatherDailyBean.getDaily().get(2).getTextDay());
+                                textView9.setText(weatherDailyBean.getDaily().get(2).getTempMin()+"/"+weatherDailyBean.getDaily().get(1).getTempMax()+"\u2103");
+                            } else {
+                                pd.dismiss();
+                                Code code = weatherDailyBean.getCode();
+                                Log.i(TAG, "failed code: " + code);
+                            }
+                        }
+                    });
+
+                }
+            });
+
+        }
+    };
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -85,16 +153,19 @@ public class MainActivity extends AppCompatActivity{
 
         System.out.println("////////"+sHA1(this));
 
-
-
-
-        // TODO: 2022/4/24 /Database
-
-
-
-
-
-
+        pd = new ProgressDialog(this);
+        pd.setMessage("LoadingWeatherData");
+        pd.show();
+        city = findViewById(R.id.city);
+        textView1 = findViewById(R.id.item5);
+        textView2 = findViewById(R.id.item10);
+        textView3 = findViewById(R.id.item);
+        textView4 = findViewById(R.id.item6);
+        textView5 = findViewById(R.id.item11);
+        textView6 = findViewById(R.id.item8);
+        textView7 = findViewById(R.id.item7);
+        textView8 = findViewById(R.id.item12);
+        textView9 = findViewById(R.id.item9);
 
         //ask for permissions
         requestPermissions(new String[]{
@@ -110,37 +181,16 @@ public class MainActivity extends AppCompatActivity{
         HeConfig.switchToDevService();
 
 
-        QWeather.getGeoCityLookup(this, "Horsens", new QWeather.OnResultGeoListener() {
-            @Override
-            public void onError(Throwable throwable) {
-                Log.i(TAG,"Error: "+throwable);
-            }
+        try {
+            startLocation(aMapLocationListener);
 
-            @Override
-            public void onSuccess(GeoBean geoBean) {
-                System.out.println(geoBean.getLocationBean().get(0).getId());
-            }
-        });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
-        QWeather.getWeatherNow(this, "D740", Lang.ZH_HANS, Unit.METRIC, new QWeather.OnResultWeatherNowListener() {
-            @Override
-            public void onError(Throwable e) {
-                Log.i(TAG, "getWeather onError: " + e);
-            }
 
-            @Override
-            public void onSuccess(WeatherNowBean weatherBean) {
-                Log.i(TAG, "getWeather onSuccess: " + new Gson().toJson(weatherBean.getNow()));
-                if (Code.OK == weatherBean.getCode()) {
-                    WeatherNowBean.NowBaseBean now = weatherBean.getNow();
-                } else {
 
-                    Code code = weatherBean.getCode();
-                    Log.i(TAG, "failed code: " + code);
-                }
-            }
-        });
     }
 
 
