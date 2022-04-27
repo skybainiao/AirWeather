@@ -19,7 +19,9 @@ public class DataService implements FireBaseData {
 
     @Override
     public void UploadUser(User user) {
-        mDatabase.child("Users").child(user.getUsername()).setValue(user);
+        if (!user.getUsername().equals("") && !user.getPassword().equals("")){
+            mDatabase.child("Users").child(user.getUsername()).setValue(user);
+        }
     }
 
     @Override

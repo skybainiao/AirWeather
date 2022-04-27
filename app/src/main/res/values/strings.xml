@@ -6,6 +6,7 @@
     <string name="weather_for_the_next_three_days">Weather for the next three days</string>
     <string name="city">City</string>
     <string name="password">Password</string>
-    <string name="username">Username</string>
+
     <string name="passwordagain">passwordAgain</string>
+    <string name="username">Username</string>
 </resources>

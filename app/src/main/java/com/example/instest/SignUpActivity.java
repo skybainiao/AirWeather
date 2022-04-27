@@ -7,9 +7,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.instest.DataService.DataService;
+import com.example.instest.DataService.FireBaseData;
+import com.example.instest.Model.User;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    FireBaseData data = new DataService();
     TextView username;
     TextView password;
     TextView passwordAgain;
@@ -29,9 +35,19 @@ public class SignUpActivity extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("did it");
+                if (!username.getText().toString().equals("") && !password.getText().toString().equals("") && !passwordAgain.getText().toString().equals("")){
+                    if (password.getText().toString().equals(passwordAgain.getText().toString()) && !password.getText().toString().equals("")){
+                        data.UploadUser(new User(username.getText().toString(),password.getText().toString()));
+                        Toast.makeText(getApplicationContext(),"registration success", Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(),"The two entered passwords do not match", Toast.LENGTH_LONG).show();
+                    }
 
-
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),"Text is Empty", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
