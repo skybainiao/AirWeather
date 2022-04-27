@@ -24,7 +24,7 @@
     <Button
         android:id="@+id/button3"
         android:layout_width="321dp"
-        android:layout_height="47dp"
+        android:layout_height="48dp"
         android:text="Refresh"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

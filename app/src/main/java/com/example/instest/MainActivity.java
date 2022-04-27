@@ -50,75 +50,8 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity{
 
     public String address;
-    FirebaseDatabase database = FirebaseDatabase.getInstance("https://airweather-51cb6-default-rtdb.europe-west1.firebasedatabase.app/");
-    DatabaseReference mDatabase = database.getReference();
     FireBaseData data = new DataService();
-    TextView city;
-    TextView textView1;
-    TextView textView2;
-    TextView textView3;
-    TextView textView4;
-    TextView textView5;
-    TextView textView6;
-    TextView textView7;
-    TextView textView8;
-    TextView textView9;
-    ProgressDialog pd;
     private ActivityMainBinding binding;
-    private AMapLocationListener aMapLocationListener = new AMapLocationListener() {
-        @Override
-        public void onLocationChanged(AMapLocation aMapLocation) {
-            city.setText(aMapLocation.getCity());
-            address = aMapLocation.getCity();
-            System.out.println("addddddddddd=============================="+address);
-
-            QWeather.getGeoCityLookup(getApplicationContext(), address, new QWeather.OnResultGeoListener() {
-                @Override
-                public void onError(Throwable throwable) {
-                    pd.dismiss();
-                    Log.i(TAG,"Error: "+throwable);
-                }
-
-                @Override
-                public void onSuccess(GeoBean geoBean) {
-                    System.out.println("iddddddddddd"+geoBean.getLocationBean().get(0).getId());
-                    String id = geoBean.getLocationBean().get(0).getId();
-
-                    QWeather.getWeather3D(getApplicationContext(), id, Lang.EN,Unit.METRIC, new QWeather.OnResultWeatherDailyListener() {
-                        @Override
-                        public void onError(Throwable throwable) {
-                            pd.dismiss();
-                            Log.i(TAG, "getWeather onError: " + throwable);
-                        }
-
-                        @SuppressLint("SetTextI18n")
-                        @Override
-                        public void onSuccess(WeatherDailyBean weatherDailyBean) {
-                            if (Code.OK == weatherDailyBean.getCode()) {
-                                pd.dismiss();
-                                textView1.setText(weatherDailyBean.getDaily().get(0).getFxDate());
-                                textView2.setText(weatherDailyBean.getDaily().get(0).getTextDay());
-                                textView3.setText(weatherDailyBean.getDaily().get(0).getTempMin()+"/"+weatherDailyBean.getDaily().get(1).getTempMax()+"\u2103");
-                                textView4.setText(weatherDailyBean.getDaily().get(1).getFxDate());
-                                textView5.setText(weatherDailyBean.getDaily().get(1).getTextDay());
-                                textView6.setText(weatherDailyBean.getDaily().get(1).getTempMin()+"/"+weatherDailyBean.getDaily().get(1).getTempMax()+"\u2103");
-                                textView7.setText(weatherDailyBean.getDaily().get(2).getFxDate());
-                                textView8.setText(weatherDailyBean.getDaily().get(2).getTextDay());
-                                textView9.setText(weatherDailyBean.getDaily().get(2).getTempMin()+"/"+weatherDailyBean.getDaily().get(1).getTempMax()+"\u2103");
-                            } else {
-                                pd.dismiss();
-                                Code code = weatherDailyBean.getCode();
-                                Log.i(TAG, "failed code: " + code);
-                            }
-                        }
-                    });
-
-                }
-            });
-
-        }
-    };
-
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -131,9 +64,6 @@ public class MainActivity extends AppCompatActivity{
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
@@ -141,20 +71,6 @@ public class MainActivity extends AppCompatActivity{
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         System.out.println("////////"+sHA1(this));
-
-        pd = new ProgressDialog(this);
-        pd.setMessage("LoadingWeatherData");
-        pd.show();
-        city = findViewById(R.id.city);
-        textView1 = findViewById(R.id.item5);
-        textView2 = findViewById(R.id.item10);
-        textView3 = findViewById(R.id.item);
-        textView4 = findViewById(R.id.item6);
-        textView5 = findViewById(R.id.item11);
-        textView6 = findViewById(R.id.item8);
-        textView7 = findViewById(R.id.item7);
-        textView8 = findViewById(R.id.item12);
-        textView9 = findViewById(R.id.item9);
 
         //ask for permissions
         requestPermissions(new String[]{
@@ -169,39 +85,7 @@ public class MainActivity extends AppCompatActivity{
         HeConfig.init("HE2204120029571686", "3c1d0f6b411c42379bde9ca2fb83661b");
         HeConfig.switchToDevService();
 
-
-
-        try {
-            startLocation(aMapLocationListener);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-
-
-        mDatabase.child("Users").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    System.out.println("Error======="+task.getException());
-                }
-                else {
-                    System.out.println("============="+String.valueOf(task.getResult().getValue()));
-                }
-            }
-        });
-
-
-
-
-
-
-
     }
-
-
 
 
     // getLocation
@@ -222,7 +106,6 @@ public class MainActivity extends AppCompatActivity{
         mapLocationClient.startLocation();
 
         Log.d("Ins","StartLocation");
-
     }
 
     private void stopLocation(){
@@ -231,7 +114,7 @@ public class MainActivity extends AppCompatActivity{
         mapLocationClient.onDestroy();
         Log.d("Ins","StopLocation");
     }
-    // end
+
 
 
     public static String sHA1(Context context){

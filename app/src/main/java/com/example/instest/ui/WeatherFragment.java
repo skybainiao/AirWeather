@@ -38,7 +38,6 @@ public class WeatherFragment extends Fragment {
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://airweather-51cb6-default-rtdb.europe-west1.firebasedatabase.app/");
     DatabaseReference mDatabase = firebaseDatabase.getReference();
 
-    String code;
     EditText cityText;
     ImageView imageButton;
     TextView textView1;
@@ -51,8 +50,6 @@ public class WeatherFragment extends Fragment {
     TextView textView8;
     TextView textView9;
     ProgressDialog pd;
-    private String weather;
-    private Weather weatherFuture1;
     private FragmentHomeBinding binding;
     private AMapLocationListener aMapLocationListener = new AMapLocationListener() {
         @Override
@@ -124,18 +121,16 @@ public class WeatherFragment extends Fragment {
         textView9 = root.findViewById(R.id.item9);
 
 
-
-
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 pd.show();
 
-                QWeather.getGeoCityLookup(getContext(), String.valueOf(cityText.getText()), new QWeather.OnResultGeoListener() {
+                QWeather.getGeoCityLookup(getContext(), String.valueOf(cityText.getText().toString()), new QWeather.OnResultGeoListener() {
                     @Override
                     public void onError(Throwable throwable) {
                         pd.dismiss();
-                        Log.i(TAG,"Error: "+throwable);
+                        Log.i(TAG,"ErrorCity=====: "+throwable);
                     }
 
                     @Override
@@ -176,13 +171,8 @@ public class WeatherFragment extends Fragment {
 
                     }
                 });
-
-
-
             }
         });
-
-
 
         try {
             ((MainActivity)getActivity()).startLocation(aMapLocationListener);
@@ -200,8 +190,8 @@ public class WeatherFragment extends Fragment {
             public void onSuccess(WeatherNowBean weatherBean) {
                 Log.i(TAG, "getWeather onSuccess: " + new Gson().toJson(weatherBean.getNow()));
                 if (Code.OK == weatherBean.getCode()) {
-                    //textView1.setText(weatherBean.getNow().getTemp());
                     WeatherNowBean.NowBaseBean now = weatherBean.getNow();
+
                 } else {
 
                     Code code = weatherBean.getCode();
@@ -209,14 +199,8 @@ public class WeatherFragment extends Fragment {
                 }
             }
         });
-
-
-
-
-
         return root;
     }
-
 
 
 
