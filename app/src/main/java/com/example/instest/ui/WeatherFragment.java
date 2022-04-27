@@ -21,12 +21,8 @@ import com.amap.api.location.AMapLocationListener;
 import com.example.instest.MainActivity;
 import com.example.instest.Model.Weather;
 import com.example.instest.R;
-import com.example.instest.ViewModel.HomeViewModel;
 import com.example.instest.databinding.FragmentHomeBinding;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
@@ -37,8 +33,6 @@ import com.qweather.sdk.bean.geo.GeoBean;
 import com.qweather.sdk.bean.weather.WeatherDailyBean;
 import com.qweather.sdk.bean.weather.WeatherNowBean;
 import com.qweather.sdk.view.QWeather;
-
-import java.util.Arrays;
 
 public class WeatherFragment extends Fragment {
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://airweather-51cb6-default-rtdb.europe-west1.firebasedatabase.app/");
@@ -110,7 +104,6 @@ public class WeatherFragment extends Fragment {
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();

@@ -1,5 +1,9 @@
 package com.example.instest.Model;
 
+import com.example.instest.MainActivity;
+import com.qweather.sdk.bean.weather.WeatherHourlyBean;
+import com.qweather.sdk.view.QWeather;
+
 public class Weather {
 
     private String maxTem;

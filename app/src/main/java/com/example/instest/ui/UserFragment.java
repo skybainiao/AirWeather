@@ -14,22 +14,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.instest.MainActivity;
+import com.example.instest.DataService.DataService;
+import com.example.instest.DataService.FireBaseData;
 import com.example.instest.Model.User;
 import com.example.instest.R;
-import com.example.instest.ViewModel.NotificationsViewModel;
 import com.example.instest.databinding.FragmentNotificationsBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -38,6 +35,7 @@ public class UserFragment extends Fragment {
 
     private FragmentNotificationsBinding binding;
 
+    FireBaseData fireBaseData = new DataService();
     Button chooseImg, uploadImg,uploadData;
     ImageView imgView;
     int PICK_IMAGE_REQUEST = 111;
@@ -49,8 +47,6 @@ public class UserFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        NotificationsViewModel notificationsViewModel =
-                new ViewModelProvider(this).get(NotificationsViewModel.class);
 
         binding = FragmentNotificationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -68,7 +64,9 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 User user = new User("chen", "dsajio");
-                notificationsViewModel.UploadUser(user);
+                User user1 = new User("mwz","dsajio");
+                fireBaseData.UploadUser(user);
+                fireBaseData.UploadUser(user1);
             }
         });
 

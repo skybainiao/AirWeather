@@ -7,7 +7,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,11 +16,10 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.example.instest.Model.User;
+import com.example.instest.DataService.FireBaseData;
+import com.example.instest.DataService.DataService;
 import com.example.instest.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -32,37 +30,21 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.google.gson.Gson;
-import com.qweather.sdk.bean.IndicesBean;
-import com.qweather.sdk.bean.air.AirNowBean;
 import com.qweather.sdk.bean.base.Code;
-import com.qweather.sdk.bean.base.IndicesType;
 import com.qweather.sdk.bean.base.Lang;
 import com.qweather.sdk.bean.base.Unit;
 import com.qweather.sdk.bean.geo.GeoBean;
 import com.qweather.sdk.bean.weather.WeatherDailyBean;
-import com.qweather.sdk.bean.weather.WeatherNowBean;
 import com.qweather.sdk.view.HeConfig;
 import com.qweather.sdk.view.QWeather;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity{
@@ -70,6 +52,7 @@ public class MainActivity extends AppCompatActivity{
     public String address;
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://airweather-51cb6-default-rtdb.europe-west1.firebasedatabase.app/");
     DatabaseReference mDatabase = database.getReference();
+    FireBaseData data = new DataService();
     TextView city;
     TextView textView1;
     TextView textView2;
@@ -144,6 +127,7 @@ public class MainActivity extends AppCompatActivity{
 
         FirebaseApp.initializeApp(this);
         System.out.println("start");
+        System.out.println("users=================="+data.getUsers());
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 

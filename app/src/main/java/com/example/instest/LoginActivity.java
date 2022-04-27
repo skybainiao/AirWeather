@@ -9,16 +9,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.instest.DataService.DBService;
-import com.example.instest.DataService.DataBaseService;
-import com.example.instest.ui.UserFragment;
-import com.example.instest.ui.WeatherFragment;
+import com.example.instest.DataService.FireBaseData;
+import com.example.instest.DataService.DataService;
+import com.example.instest.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -27,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView password;
     Button signIn;
     Button signUp;
-    DBService dbService = new DataBaseService();
+    FireBaseData fireBaseData = new DataService();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +45,36 @@ public class LoginActivity extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
+                fireBaseData.getmDatabase().child("Users").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        try {
+                            for (int i = 0; i < Objects.requireNonNull(task.getResult().getValue()).toString().length(); i++) {
+                                if (task.getResult().getValue().toString().contains(username.getText().toString())){
+                                    if (Objects.requireNonNull(task.getResult().child(username.getText().toString()).getValue(User.class)).getPassword().contains(password.getText())){
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                    }
+                                    else {
+                                        Toast.makeText(getApplicationContext(),"Wrong Username or Password", Toast.LENGTH_LONG).show();
+                                        break;
+                                    }
+                                }
+                                else {
+                                    Toast.makeText(getApplicationContext(),"Wrong Username or Password", Toast.LENGTH_LONG).show();
+                                    break;
+                                }
+                            }
+                        }
+                        catch (Exception e){
+                            e.getMessage();
+                            Toast.makeText(getApplicationContext(),"Text is Empty", Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+
+                });
+
             }
         });
 

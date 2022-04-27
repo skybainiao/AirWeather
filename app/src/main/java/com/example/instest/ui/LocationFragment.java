@@ -19,7 +19,6 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.example.instest.MainActivity;
 import com.example.instest.R;
-import com.example.instest.ViewModel.DashboardViewModel;
 import com.example.instest.databinding.FragmentDashboardBinding;
 
 public class LocationFragment extends Fragment {
@@ -58,18 +57,10 @@ public class LocationFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        DashboardViewModel dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
+
 
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        Intent intent = new Intent();
-
-
-        final TextView textView = binding.textDashboard;
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-
-
 
         button = root.findViewById(R.id.button3);
         textViewLocation = root.findViewById(R.id.text_dashboard);
