@@ -49,6 +49,10 @@ public class WeatherFragment extends Fragment {
     TextView textView7;
     TextView textView8;
     TextView textView9;
+    TextView temp;
+    TextView max;
+    TextView min;
+    TextView cloud;
     ProgressDialog pd;
     private FragmentHomeBinding binding;
     private AMapLocationListener aMapLocationListener = new AMapLocationListener() {
@@ -60,17 +64,40 @@ public class WeatherFragment extends Fragment {
                 @Override
                 public void onError(Throwable throwable) {
                     pd.dismiss();
-                    Log.i(TAG, "getWeather onError: " + throwable);
+                    Log.i(TAG, "getWeather onError: " + throwable.getMessage());
                 }
 
                 @Override
                 public void onSuccess(GeoBean geoBean) {
 
+                    QWeather.getWeatherNow(getContext(), geoBean.getLocationBean().get(0).getId(), Lang.EN, Unit.METRIC, new QWeather.OnResultWeatherNowListener() {
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.i(TAG, "getWeather onError: " + e);
+                        }
+
+                        @SuppressLint("SetTextI18n")
+                        @Override
+                        public void onSuccess(WeatherNowBean weatherBean) {
+                            Log.i(TAG, "getWeather onSuccess: " + new Gson().toJson(weatherBean.getNow()));
+                            if (Code.OK == weatherBean.getCode()) {
+                                WeatherNowBean.NowBaseBean now = weatherBean.getNow();
+                                temp.setText(now.getTemp()+"\u2103");
+                                cloud.setText(now.getText());
+
+                            } else {
+
+                                Code code = weatherBean.getCode();
+                                Log.i(TAG, "failed code: " + code);
+                            }
+                        }
+                    });
+
                     QWeather.getWeather3D(getContext(), geoBean.getLocationBean().get(0).getId(), Lang.EN,Unit.METRIC, new QWeather.OnResultWeatherDailyListener() {
                         @Override
                         public void onError(Throwable throwable) {
                             pd.dismiss();
-                            Log.i(TAG, "getWeather onError: " + throwable);
+                            Log.i(TAG, "getWeather onError: " + throwable.getMessage());
                         }
 
                         @SuppressLint("SetTextI18n")
@@ -78,6 +105,8 @@ public class WeatherFragment extends Fragment {
                         public void onSuccess(WeatherDailyBean weatherDailyBean) {
                             if (Code.OK == weatherDailyBean.getCode()) {
                                 pd.dismiss();
+                                max.setText("H:"+weatherDailyBean.getDaily().get(0).getTempMax()+"\u2103");
+                                min.setText("L:"+weatherDailyBean.getDaily().get(0).getTempMin()+"\u2103");
                                 textView1.setText(weatherDailyBean.getDaily().get(0).getFxDate());
                                 textView2.setText(weatherDailyBean.getDaily().get(0).getTextDay());
                                 textView3.setText(weatherDailyBean.getDaily().get(0).getTempMin()+"/"+weatherDailyBean.getDaily().get(1).getTempMax()+"\u2103");
@@ -94,6 +123,8 @@ public class WeatherFragment extends Fragment {
                             }
                         }
                     });
+
+
                 }
             });
         }
@@ -119,6 +150,10 @@ public class WeatherFragment extends Fragment {
         textView7 = root.findViewById(R.id.item7);
         textView8 = root.findViewById(R.id.item12);
         textView9 = root.findViewById(R.id.item9);
+        temp = root.findViewById(R.id.temp);
+        max = root.findViewById(R.id.max);
+        min = root.findViewById(R.id.min);
+        cloud = root.findViewById(R.id.cloud);
 
 
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -126,7 +161,7 @@ public class WeatherFragment extends Fragment {
             public void onClick(View view) {
                 pd.show();
 
-                QWeather.getGeoCityLookup(getContext(), String.valueOf(cityText.getText().toString()), new QWeather.OnResultGeoListener() {
+                QWeather.getGeoCityLookup(getContext(), cityText.getText().toString(), new QWeather.OnResultGeoListener() {
                     @Override
                     public void onError(Throwable throwable) {
                         pd.dismiss();
@@ -140,6 +175,29 @@ public class WeatherFragment extends Fragment {
                         mDatabase.child("Cities").child(String.valueOf(cityText.getText())).setValue(id);
 
 
+                        QWeather.getWeatherNow(getContext(), geoBean.getLocationBean().get(0).getId(), Lang.EN, Unit.METRIC, new QWeather.OnResultWeatherNowListener() {
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.i(TAG, "getWeather onError: " + e);
+                            }
+
+                            @SuppressLint("SetTextI18n")
+                            @Override
+                            public void onSuccess(WeatherNowBean weatherBean) {
+                                Log.i(TAG, "getWeather onSuccess: " + new Gson().toJson(weatherBean.getNow()));
+                                if (Code.OK == weatherBean.getCode()) {
+                                    WeatherNowBean.NowBaseBean now = weatherBean.getNow();
+                                    temp.setText(now.getTemp()+"\u2103");
+                                    cloud.setText(now.getText());
+
+                                } else {
+
+                                    Code code = weatherBean.getCode();
+                                    Log.i(TAG, "failed code: " + code);
+                                }
+                            }
+                        });
+
                         QWeather.getWeather3D(getContext(), id, Lang.EN,Unit.METRIC, new QWeather.OnResultWeatherDailyListener() {
                             @Override
                             public void onError(Throwable throwable) {
@@ -152,6 +210,8 @@ public class WeatherFragment extends Fragment {
                             public void onSuccess(WeatherDailyBean weatherDailyBean) {
                                 if (Code.OK == weatherDailyBean.getCode()) {
                                     pd.dismiss();
+                                    max.setText("H:"+weatherDailyBean.getDaily().get(0).getTempMax()+"\u2103");
+                                    min.setText("L:"+weatherDailyBean.getDaily().get(0).getTempMin()+"\u2103");
                                     textView1.setText(weatherDailyBean.getDaily().get(0).getFxDate());
                                     textView2.setText(weatherDailyBean.getDaily().get(0).getTextDay());
                                     textView3.setText(weatherDailyBean.getDaily().get(0).getTempMin()+"/"+weatherDailyBean.getDaily().get(1).getTempMax()+"\u2103");
@@ -180,25 +240,7 @@ public class WeatherFragment extends Fragment {
             e.printStackTrace();
         }
 
-        QWeather.getWeatherNow(getContext(), "D740", Lang.EN, Unit.METRIC, new QWeather.OnResultWeatherNowListener() {
-            @Override
-            public void onError(Throwable e) {
-                Log.i(TAG, "getWeather onError: " + e);
-            }
 
-            @Override
-            public void onSuccess(WeatherNowBean weatherBean) {
-                Log.i(TAG, "getWeather onSuccess: " + new Gson().toJson(weatherBean.getNow()));
-                if (Code.OK == weatherBean.getCode()) {
-                    WeatherNowBean.NowBaseBean now = weatherBean.getNow();
-
-                } else {
-
-                    Code code = weatherBean.getCode();
-                    Log.i(TAG, "failed code: " + code);
-                }
-            }
-        });
         return root;
     }
 
