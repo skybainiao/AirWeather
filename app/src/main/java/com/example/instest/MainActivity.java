@@ -88,6 +88,8 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
+
+
     // getLocation
     private AMapLocationClient mapLocationClient;
 

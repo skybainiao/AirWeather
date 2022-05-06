@@ -31,6 +31,7 @@ import com.qweather.sdk.bean.base.Lang;
 import com.qweather.sdk.bean.base.Unit;
 import com.qweather.sdk.bean.geo.GeoBean;
 import com.qweather.sdk.bean.weather.WeatherDailyBean;
+import com.qweather.sdk.bean.weather.WeatherHourlyBean;
 import com.qweather.sdk.bean.weather.WeatherNowBean;
 import com.qweather.sdk.view.QWeather;
 
@@ -125,6 +126,19 @@ public class WeatherFragment extends Fragment {
                     });
 
 
+                    QWeather.getWeather24Hourly(getContext(), geoBean.getLocationBean().get(0).getId(), Lang.EN,Unit.METRIC, new QWeather.OnResultWeatherHourlyListener() {
+                        @Override
+                        public void onError(Throwable throwable) {
+                            Log.i(TAG, "getWeather onError=========: " + throwable.getMessage());
+                        }
+
+                        @Override
+                        public void onSuccess(WeatherHourlyBean weatherHourlyBean) {
+                            System.out.println("bbabbabababababababababba"+weatherHourlyBean.getHourly().get(0).getFxTime());
+                        }
+                    });
+
+
                 }
             });
         }
@@ -175,15 +189,17 @@ public class WeatherFragment extends Fragment {
                         mDatabase.child("Cities").child(String.valueOf(cityText.getText())).setValue(id);
 
 
-                        QWeather.getWeatherNow(getContext(), geoBean.getLocationBean().get(0).getId(), Lang.EN, Unit.METRIC, new QWeather.OnResultWeatherNowListener() {
+                        QWeather.getWeatherNow(getContext(), id, Lang.EN, Unit.METRIC, new QWeather.OnResultWeatherNowListener() {
                             @Override
                             public void onError(Throwable e) {
+                                pd.dismiss();
                                 Log.i(TAG, "getWeather onError: " + e);
                             }
 
                             @SuppressLint("SetTextI18n")
                             @Override
                             public void onSuccess(WeatherNowBean weatherBean) {
+                                pd.dismiss();
                                 Log.i(TAG, "getWeather onSuccess: " + new Gson().toJson(weatherBean.getNow()));
                                 if (Code.OK == weatherBean.getCode()) {
                                     WeatherNowBean.NowBaseBean now = weatherBean.getNow();
@@ -201,7 +217,6 @@ public class WeatherFragment extends Fragment {
                         QWeather.getWeather3D(getContext(), id, Lang.EN,Unit.METRIC, new QWeather.OnResultWeatherDailyListener() {
                             @Override
                             public void onError(Throwable throwable) {
-                                pd.dismiss();
                                 Log.i(TAG, "getWeather onError: " + throwable);
                             }
 
@@ -209,7 +224,6 @@ public class WeatherFragment extends Fragment {
                             @Override
                             public void onSuccess(WeatherDailyBean weatherDailyBean) {
                                 if (Code.OK == weatherDailyBean.getCode()) {
-                                    pd.dismiss();
                                     max.setText("H:"+weatherDailyBean.getDaily().get(0).getTempMax()+"\u2103");
                                     min.setText("L:"+weatherDailyBean.getDaily().get(0).getTempMin()+"\u2103");
                                     textView1.setText(weatherDailyBean.getDaily().get(0).getFxDate());
@@ -222,12 +236,14 @@ public class WeatherFragment extends Fragment {
                                     textView8.setText(weatherDailyBean.getDaily().get(2).getTextDay());
                                     textView9.setText(weatherDailyBean.getDaily().get(2).getTempMin()+"/"+weatherDailyBean.getDaily().get(1).getTempMax()+"\u2103");
                                 } else {
-                                    pd.dismiss();
                                     Code code = weatherDailyBean.getCode();
                                     Log.i(TAG, "failed code: " + code);
                                 }
                             }
                         });
+
+
+
 
                     }
                 });
