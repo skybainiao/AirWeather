@@ -253,7 +253,8 @@
                     android:id="@+id/button86"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Button"
+                    android:text="20:00"
+
                     tools:ignore="DuplicateSpeakableTextCheck" />
 
                 <Button

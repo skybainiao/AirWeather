@@ -134,7 +134,7 @@ public class WeatherFragment extends Fragment {
 
                         @Override
                         public void onSuccess(WeatherHourlyBean weatherHourlyBean) {
-                            System.out.println("bbabbabababababababababba"+weatherHourlyBean.getHourly().get(0).getFxTime());
+                            System.out.println("bbabbabababababababababba"+weatherHourlyBean.getHourly().get(23).getFxTime().substring(11,16));
                         }
                     });
 
