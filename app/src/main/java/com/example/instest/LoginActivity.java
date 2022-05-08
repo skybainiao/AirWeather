@@ -45,37 +45,35 @@ public class LoginActivity extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                //fireBaseData.getmDatabase().child("Users").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                //    @Override
-                //    public void onComplete(@NonNull Task<DataSnapshot> task) {
-                //        try {
-                //            for (int i = 0; i < Objects.requireNonNull(task.getResult().getValue()).toString().length(); i++) {
-                //                if (task.getResult().getValue().toString().contains(username.getText().toString())){
-                //                    if (Objects.requireNonNull(task.getResult().child(username.getText().toString()).getValue(User.class)).getPassword().contains(password.getText())){
-                //                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                //                        startActivity(intent);
-                //                    }
-                //                    else {
-                //                        Toast.makeText(getApplicationContext(),"Wrong Username or Password", Toast.LENGTH_LONG).show();
-                //                        break;
-                //                    }
-                //                }
-                //                else {
-                //                    Toast.makeText(getApplicationContext(),"Wrong Username or Password", Toast.LENGTH_LONG).show();
-                //                    break;
-                //                }
-                //            }
-                //        }
-                //        catch (Exception e){
-                //            e.getMessage();
-                //            Toast.makeText(getApplicationContext(),"Text is Empty", Toast.LENGTH_LONG).show();
-                //        }
-//
-                //    }
-//
-                //});
+                fireBaseData.getmDatabase().child("Users").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        try {
+                            for (int i = 0; i < Objects.requireNonNull(task.getResult().getValue()).toString().length(); i++) {
+                                if (task.getResult().getValue().toString().contains(username.getText().toString())){
+                                    if (Objects.requireNonNull(task.getResult().child(username.getText().toString()).getValue(User.class)).getPassword().contains(password.getText())){
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                    }
+                                    else {
+                                        Toast.makeText(getApplicationContext(),"Wrong Username or Password", Toast.LENGTH_LONG).show();
+                                        break;
+                                    }
+                                }
+                                else {
+                                    Toast.makeText(getApplicationContext(),"Wrong Username or Password", Toast.LENGTH_LONG).show();
+                                    break;
+                                }
+                            }
+                        }
+                        catch (Exception e){
+                            e.getMessage();
+                            Toast.makeText(getApplicationContext(),"Text is Empty", Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+
+                });
 
             }
         });

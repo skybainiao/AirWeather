@@ -230,7 +230,8 @@
         app:layout_constraintVertical_bias="0.297" />
 
     <HorizontalScrollView
-        android:layout_width="409dp"
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="350dp"
         android:layout_height="150dp"
         android:contentDescription="@string/app_name"
         app:layout_constraintBottom_toTopOf="@+id/item10"
@@ -253,7 +254,7 @@
                     android:id="@+id/button86"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="20:00"
+                    android:text="button"
 
                     tools:ignore="DuplicateSpeakableTextCheck" />
 
@@ -682,6 +683,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <Button
                     android:id="@+id/button30"
                     android:layout_width="match_parent"
@@ -705,6 +707,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <Button
                     android:id="@+id/button27"
                     android:layout_width="match_parent"
@@ -728,6 +731,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <Button
                     android:id="@+id/button24"
                     android:layout_width="match_parent"
@@ -751,6 +755,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <Button
                     android:id="@+id/button23"
                     android:layout_width="match_parent"
@@ -819,5 +824,30 @@
             </LinearLayout>
         </LinearLayout>
     </HorizontalScrollView>
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hourly Weather"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.581" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="Weather for the next three days"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.887" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
