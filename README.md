@@ -28,5 +28,7 @@ As a registered user, I want to log in so I can view my geographic location (lon
 
 
 ![image](https://user-images.githubusercontent.com/75226562/168085802-7b613dd3-47ba-4865-b66b-692d08451ca6.png)
+![image](https://user-images.githubusercontent.com/75226562/168085993-5b02250e-5543-4582-b670-b439e3def960.png)
+
 
 
