@@ -14,12 +14,16 @@ As a registered user, I would like to log in so I can see the local weather toda
 
 As a registered user, I would like to log in so I can view the local temperature today
 
-As a registered user, I want to select a city so I can know the weather in the selected city
+As a registered user, I would like to log in to see the hourly weather for the day
 
-As a registered user, I want to select a city so I can know the temperature of the selected city
+As a registered user, I would like to log in to see the weather for the next three days
+
+As a registered user, I want to search to see the weather in other cities
 
 As a registered user, I would like to log in so I can view my location
 
 As a registered user, I want to log in so I can view my geographic location (longitude and latitude)
+
+//All requirements are completed
 
 
