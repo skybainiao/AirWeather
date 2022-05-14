@@ -22,6 +22,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.instest.DataService.DataService;
 import com.example.instest.DataService.FireBaseData;
+import com.example.instest.LoginActivity;
+import com.example.instest.MainActivity;
 import com.example.instest.Model.User;
 import com.example.instest.R;
 import com.example.instest.databinding.FragmentNotificationsBinding;
@@ -63,10 +65,8 @@ public class UserFragment extends Fragment {
         uploadData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                User user = new User("chen", "dsajio");
-                User user1 = new User("mwz","dsajio");
-                fireBaseData.UploadUser(user);
-                fireBaseData.UploadUser(user1);
+                Intent intent = new Intent(getActivity(),LoginActivity.class);
+                startActivity(intent);
             }
         });
 

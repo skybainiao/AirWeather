@@ -36,7 +36,7 @@ import com.qweather.sdk.bean.weather.WeatherHourlyBean;
 import com.qweather.sdk.bean.weather.WeatherNowBean;
 import com.qweather.sdk.view.QWeather;
 
-public class WeatherFragment extends Fragment {
+public class  WeatherFragment extends Fragment {
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://airweather-51cb6-default-rtdb.europe-west1.firebasedatabase.app/");
     DatabaseReference mDatabase = firebaseDatabase.getReference();
 
